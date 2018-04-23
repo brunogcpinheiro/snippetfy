@@ -14,7 +14,7 @@ app.set('view engine', 'njk');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.send('Hello Wrold!');
+  res.render('index');
 });
 
 app.listen(3000);
