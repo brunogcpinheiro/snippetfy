@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   signin(req, res) {
@@ -13,11 +14,15 @@ module.exports = {
     const { email } = req.body;
 
     if (await User.findOne({ where: { email } })) {
+      req.flash('error', 'E-mail já cadastrado');
       return res.redirect('back');
     }
 
-    await User.create(req.body);
+    const password = await bcrypt.hash(req.body.password, 5);
 
+    await User.create({ ...req.body, password });
+
+    req.flash('success', 'Usuário cadastrado com sucesso!');
     return res.redirect('/');
   },
 };
