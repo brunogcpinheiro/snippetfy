@@ -3,6 +3,7 @@ const express = require('express');
 const routes = express.Router();
 const authController = require('./controllers/authController');
 const dashboardController = require('./controllers/dashboardController');
+const categoryController = require('./controllers/categoryController');
 const authMiddleWare = require('./middlewares/auth');
 const guestMiddleware = require('./middlewares/guest');
 
@@ -12,6 +13,9 @@ routes.use((req, res, next) => {
   next();
 });
 
+/**
+ * Auth
+ */
 routes.get('/', guestMiddleware, authController.signin);
 routes.get('/signup', guestMiddleware, authController.signup);
 routes.get('/signout', authController.signout);
@@ -19,8 +23,16 @@ routes.get('/signout', authController.signout);
 routes.post('/register', authController.register);
 routes.post('/authenticate', authController.authenticate);
 
+/**
+ * Dashboard
+ */
 routes.use('/app', authMiddleWare);
 routes.get('/app/dashboard', dashboardController.index);
+
+/**
+ * Categoria
+ */
+routes.post('/app/categories/create', categoryController.store);
 
 routes.use((req, res) => res.render('errors/404'));
 
