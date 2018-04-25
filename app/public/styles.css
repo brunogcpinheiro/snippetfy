@@ -22,7 +22,7 @@ body {
   -webkit-font-smoothing: antialiased !important;
 }
 
-button {
+button, input {
   font-family: 'Varela Round', sans-serif;
 }
 
